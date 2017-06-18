@@ -1,1 +1,0 @@
-WarsawJS Workshop - WebComponents
