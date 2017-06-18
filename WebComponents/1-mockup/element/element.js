@@ -1,8 +1,8 @@
 class Element extends HTMLElement {
+    
     constructor () {
         super();
         console.log("constructor");
-
         this.shadow = this.attachShadow({mode: "open"});
     }
 
