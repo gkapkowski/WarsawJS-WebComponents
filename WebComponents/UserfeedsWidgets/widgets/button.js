@@ -78,4 +78,4 @@ class Endorse extends HTMLElement {
     } 
 };
 
-window.customElements.define('userfeeds-endorse', Endorse);
+window.customElements.define('userfeeds-button', Endorse);
