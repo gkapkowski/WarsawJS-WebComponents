@@ -4,35 +4,39 @@ class Element extends HTMLElement {
         super();
         console.log("constructor");
         this.shadow = this.attachShadow({mode: "open"});
+        this.profileTemplate = document.currentScript.ownerDocument.querySelector('#profile');
+        this.repoTemplate = document.currentScript.ownerDocument.querySelector('#repo');
     }
 
     connectedCallback () {
-        let profileTemplate = document.currentScript.ownerDocument.querySelector('#profile');
-        let repoTemplate = document.currentScript.ownerDocument.querySelector('#repo');
-
-        this.fetch(this.attributes.profile.value).then(({profile, repos}) => {
-            profileTemplate = profileTemplate.cloneNode(true);
-            
-            this.fill(profileTemplate.content, profile);
-
-            let repoList = profileTemplate.content.querySelector('ul');
-
-            repos = repos.filter(item => item.stargazers_count)
-            repos.sort((a, b) => a.stargazers_count - b.stargazers_count);
-
-            for (var i = repos.length - 1; i >= 0; i--) {
-                let repo = repoTemplate.cloneNode(true);
-                
-                this.fill(repo.content, repos[i]);
-
-                repoList.appendChild(repo.content);
-            }
-            
-            this.shadow.appendChild(profileTemplate.content);
-        });        
+        this.fetch(this.attributes.profile.value).then(this.render.bind(this));        
     }
 
-    fill (content, obj) {
+    render ({profile, repos}) {
+        let profileTemplate = this.profileTemplate.cloneNode(true);
+        
+        this.fillTemplate(profileTemplate.content, profile);
+
+        this.renderRepos(profileTemplate.content.querySelector('ul'), repos)
+        
+        this.shadow.appendChild(profileTemplate.content);
+    }
+
+    renderRepos (elem, repos) {
+        repos = repos.filter(item => item.stargazers_count)
+        repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+        repos = repos.slice(0, this.attributes.repos.value);
+
+        for (let repo of repos) {
+            let repoTemplate = this.repoTemplate.cloneNode(true);
+            
+            this.fillTemplate(repoTemplate.content, repo);
+
+            elem.appendChild(repoTemplate.content);
+        }
+    }
+
+    fillTemplate (content, obj) {
         for (let key in obj) {
             let elem = content.querySelector(`#${key}`);
             if (elem) {
