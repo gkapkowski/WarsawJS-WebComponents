@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WarsawJS - WebComponents</title>
+</head>
+<body>
+    <img src="http://placeskull.com/50/50/">
+
+    <h1>WarsawJS Workshop</h1>
+
+    <userfeeds-endorse 
+        apikey="lalalalalalala" 
+        address="0xmyaddress" 
+        label="Like" 
+        value="0"/>
+
+    <script type="text/javascript">
+        let img = document.querySelector('h1');
+        let shadow = img.attachShadow({mode: "open"});
+        console.log(shadow);
+
+        class Endorse extends HTMLElement {
+
+            constructor () {
+                super();
+                console.log('constructor');
+
+                let apikey = this.getAttribute('apikey');
+                let address = this.getAttribute('address');
+                let label = this.getAttribute('label');
+                let value = this.getAttribute('value');
+            }
+
+            attributeChangedCallback () {
+                console.log('attributeChangeCallback')
+            }
+
+            connectedCallback () {
+                console.log('connectedCallback')
+            }
+
+            disconnectedCallback () {
+                console.log('disconnectedCallback')
+            }
+
+            adoptedCallback () {
+                console.log('adoptedCallback')
+            }
+
+            
+        };
+
+        window.customElements.define('userfeeds-endorse', Endorse);
+    </script>
+</body>
+</html>
