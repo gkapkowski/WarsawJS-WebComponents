@@ -1,10 +1,11 @@
+(function () {
 class Element extends HTMLElement {
     
     constructor () {
         super();
         console.log("constructor");
         this.shadow = this.attachShadow({mode: "open"});
-        this.template = document.currentScript.ownerDocument.querySelector('template');
+        this.template = Element.doc.querySelector('template');
 
         this.index = 0;
     }
@@ -47,4 +48,8 @@ class Element extends HTMLElement {
 
 }
 
-window.customElements.define('slides-player', Element);
+Element.doc = document.currentScript.ownerDocument;
+
+window.customElements.define('slides-player', Element);    
+    
+})();

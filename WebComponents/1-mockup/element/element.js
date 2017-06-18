@@ -1,5 +1,6 @@
+(function () {
 class Element extends HTMLElement {
-    
+
     constructor () {
         super();
         console.log("constructor");
@@ -7,7 +8,7 @@ class Element extends HTMLElement {
     }
 
     connectedCallback () {
-        let template = document.currentScript.ownerDocument.querySelector('template');
+        let template = Element.doc.querySelector('template');
 
         template = template.cloneNode(true);
 
@@ -18,4 +19,8 @@ class Element extends HTMLElement {
     }
 }
 
-window.customElements.define('mockup-element', Element);
+Element.doc = document.currentScript.ownerDocument;
+
+window.customElements.define('mockup-element', Element);    
+
+})();

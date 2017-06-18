@@ -1,11 +1,12 @@
+(function () {
 class Element extends HTMLElement {
     
     constructor () {
         super();
         console.log("constructor");
         this.shadow = this.attachShadow({mode: "open"});
-        this.profileTemplate = document.currentScript.ownerDocument.querySelector('#profile');
-        this.repoTemplate = document.currentScript.ownerDocument.querySelector('#repo');
+        this.profileTemplate = Element.doc.querySelector('#profile');
+        this.repoTemplate = Element.doc.querySelector('#repo');
     }
 
     connectedCallback () {
@@ -69,4 +70,7 @@ class Element extends HTMLElement {
     }
 }
 
+Element.doc = document.currentScript.ownerDocument;
+
 window.customElements.define('github-profile-card-element', Element);
+})();
